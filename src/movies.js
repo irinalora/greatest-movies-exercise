@@ -12,16 +12,16 @@ function getAllDirectors(movies) {
 // Iteration 2: Steven Spielberg. The best? - How many drama movies did STEVEN SPIELBERG direct?
 // --- CATALÀ ---
 // Steven Spielberg. És el millor? - Quantes pelis de drama ha dirigit Steven Spielberg?
-// function howManyMovies(movies) {
-//   return movies.filter((movie) => {
-//     return (
-//       movie.genre.includes('Drama') && movie.director === 'Steven Spielberg'
-//     );
-//   }).length; // para convertirlo en numero
-// }
+function howManyMovies(movies) {
+  return movies.filter((movie) => {
+    return (
+      movie.genre.includes('Drama') && movie.director === 'Steven Spielberg'
+    );
+  }).length; // para convertirlo en numero
+}
 
 
-// // function howManyMovies(someMovies) {
+// function howManyMovies(someMovies) {
 //   return someMovies.filter(
 //     eachMovie =>
 //       eachMovie.director === 'Steven Spielberg' &&
@@ -36,22 +36,49 @@ function getAllDirectors(movies) {
 // La mitjana de puntuació. Extreu la mitjana de totes les puntuacions de les pel·lícules,
 // amb dos decimals.
 function scoresAverage(movies) {
+  if (movies.length === 0) return 0;
   const sumaDetot = movies.reduce((acc, movie) => {
-    return movie.score + acc;
-  }, 0)
-  const reuslt = (sumaDeTot / movies.length).toFixed(2);
+    if (movie.score !== undefined) {
+      return movie.score + acc;
+    } else {
+      return acc;
+    }
+  }, 0);
+  const resultat = (sumaDetot / movies.length).toFixed(2);
   return Number(resultat);
-
 }
 // Iteration 4: Drama movies - Get the average of Drama Movies
 // --- CATALÀ ---
 // Pel·lícules de drama. Extreu la mitjana de les Películes de drama.
-function dramaMoviesScore(movies) { }
+function dramaMoviesScore(movies) {
+  const dramafiltered = movies.filter(peli => {
+    return peli.genre.includes('Drama');
+  })
+  return scoresAverage(dramafiltered);
+}
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
 // --- CATALÀ ---
 // Ordenar per any. Order per ordre ascendent (creixent) les pel·lícules.
-function orderByYear(movies) { }
+// primer copia completa de array
+// si es más de cero retorna uno, seria decirle inviertelos
+// si fuera ordenar simplemente seria:  return a.year - b.year;, 
+// pero como no es el caso seria asi:
+function orderByYear(movies) {
+  const copyMovies = movies.map((movie) => movie);
+  copyMovies.sort((a, b) => {
+    if (a.year === b.year) {
+      if (a.tittle > b.title) {
+        return 1;
+      } else if (a.title < b.title) {
+        return -1;
+      }
+    } else {
+      return a.year - b.year;
+    }
+  });
+  return copyMovies;
+}
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
 // --- CATALÀ ---
